@@ -1,0 +1,152 @@
+<body>
+
+    <div id="content" >     
+        <canvas id="story" style="border:1px solid #000000;" width="720" height="450"></canvas>                  
+    </div>
+    <script type='text/javascript'>
+
+        /* variable initalize */
+
+        var loadImg = 0;
+        var flag = 0;
+        var canvas = document.getElementById("story");
+        var ctx = canvas.getContext('2d');
+        var sprites = [];
+        var friendPlay = new Image();
+        var bondo2Running = new Image();
+        var microRunning = new Image();
+        var backGround = new Image();
+
+
+        //images.push(friendPlay);
+        backGround.src = '<?= $this->baseUrl() ?>/images/story2/background.jpg';
+        bondo2Running.src = '<?= $this->baseUrl() ?>/images/story2/Bondok running.png';
+        microRunning.src = '<?= $this->baseUrl() ?>/images/story2/Dr Walking.png';
+
+        function Sprite(image, frames, x, y, row, last_remain_row, widthShift, heightShift) {
+            this.image = image;
+            this.frames = frames;
+            this.widthShift = widthShift || 0;
+            this.heightShift = heightShift || 0;
+            this.w = image.width / frames - this.widthShift;
+            this.h = image.height / row - this.heightShift;
+            this.x = x || 0;
+            this.y = y || 0;
+            this.currentFrame = 0;
+            this.currentRow = 0;
+
+            this.die = function() {
+                this.dead = true;
+            }
+            this.nextFrame = function() {
+                this.currentFrame++;
+                this.currentFrame %= this.frames;
+                if (this.currentFrame == 0)
+                {
+                    this.currentRow++;
+                    if (this.currentRow == row)
+                    {
+                        this.currentFrame = 0;
+                        this.currentRow = 0;
+                        this.frames = frames;
+                    }
+                    else if (this.currentRow == row - 1)
+                    {
+                        this.frames = frames - last_remain_row;
+
+                    }
+
+                }
+            }
+
+            this.render = function() {
+                this.nextFrame();
+            }
+        }
+
+        /* function to call every 100 ms*/
+        function renderAnimation() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.drawImage(backGround, 0, 0, canvas.width, canvas.height);
+            for (var i = 0; i < sprites.length; i++) {
+                var s = sprites[i];
+
+                s.render();
+
+                if (flag == 1 && s.image === friendPlay) {
+                    ctx.drawImage(s.image,
+                            7 * s.w, 2 * s.h,
+                            s.w, s.h,
+                            s.x, s.y,
+                            s.w / 2, s.h / 2);
+
+                }
+                else if (s.image === microRunning) {
+                    s.x += 10;
+                    ctx.drawImage(s.image,
+                            s.currentFrame * s.w, s.currentRow * s.h,
+                            s.w, s.h,
+                            s.x, s.y,
+                            s.w / 2, s.h / 2);
+                } else {
+                    ctx.drawImage(s.image,
+                            s.currentFrame * s.w, s.currentRow * s.h,
+                            s.w, s.h,
+                            s.x, s.y,
+                            s.w / 2, s.h / 2);
+                }
+            }
+
+            if (s.image === friendPlay && s.currentRow == 2 && s.currentFrame == 7) {
+                //sprites = [];
+                flag = 1;
+                var s1 = new Sprite(bondo2Running, 6, 20, 150, 1, 0);
+                sprites.push(s1);
+                var s2 = new Sprite(microRunning, 9, 20, 200, 1, 0);
+                sprites.push(s2);
+
+            }
+
+        }
+
+        /* function create object from function that initalize image and get it parameter*/
+        function addSprite() {
+            var s = new Sprite(friendPlay, 8, 150, 100, 3, 0);
+            sprites.push(s);
+
+        }
+
+        function loadedImg(load) {
+            if (load == imagesName.length) {
+                addSprite();
+                setInterval(renderAnimation, 500);
+            }
+        }
+        /* to insure all image is loaded first*/
+
+        /*for (img in images){
+         img.src = images[img];
+         img.onload=function(){
+         loadImg++;
+         loadedImg(loadImg);
+         }
+         }*/
+
+
+        backGround.onload = function() {
+            friendPlay.src = '<?= $this->baseUrl() ?>/images/story2/Running and falling.png';
+            friendPlay.onload = function() {
+
+                addSprite();
+                setInterval(renderAnimation, 500);
+            }
+        }
+
+        // start to load the image
+        /* initaliz image*/
+
+
+
+
+    </script>
+</body>

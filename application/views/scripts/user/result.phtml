@@ -1,0 +1,26 @@
+<br><br><br><br><br>
+
+<?php
+if ($this->result == 'pass') {
+    ?>
+
+    <div class="alert alert-success alert-dismissable">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+        <h4>
+            برااااافو 
+        </h4> <strong>مبروك</strong> دلوقتي تقدرتشوف قصص اكتر  <a href="../user" class="alert-link"> Home</a>
+    </div>  
+    <?php
+} else {
+    ?>
+    <div class="alert alert-dismissable alert-danger">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+        <h4>
+            Oh!
+        </h4> <strong>You couldn't pass the quiz!</strong> Back to try again  <a href="" onclick="window.history.go(-1);
+                return false;" class="alert-link">Back</a> OR <a href="../user">Home</a>
+    </div>
+    <?php
+}
+?>
+

@@ -1,0 +1,32 @@
+
+<br><br><br>
+<div style="padding: 25px;">
+<form method="post" action="result">
+    <ul>
+        <?php
+        foreach ($this->quiz as $questions) {
+            $answers = split(",",$questions['answers']);
+                $count = 1;
+            ?>
+                <li>
+                     <h3><?= $questions['question'] ?></h3>
+                     <br><br>
+                     <input type="radio" name="ans<?=$count?>" value="<?= $answers[0] ?>" checked><img src="../cat1_quiz1/<?= $answers[0] ?>" width="200px" height="300px">
+                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                     <input type="radio" name="ans<?=$count?>" value="<?= $answers[1] ?>"><img src="../cat1_quiz1/<?= $answers[1] ?>" width="200px" height="300px">
+                     <input type="hidden" name="correct_ans<?=$count?>" value="<?=$answers[2]?>">
+
+                </li>
+            <?php
+            $count++;
+        }
+        ?>
+
+
+    </ul>
+    <input type="submit">
+</form>
+</div>  
+
+
+

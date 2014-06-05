@@ -1,0 +1,133 @@
+<head>
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+
+    <link href="<?= $this->baseUrl() ?>/css/style.css" type="text/css">
+
+    <link href="<?= $this->baseUrl() ?>/css/bootstrap.min.css" rel="stylesheet">
+
+    <link href="<?= $this->baseUrl() ?>/style.css" rel="stylesheet" type="text/css" media="screen" />
+
+    <script type="text/javascript" src= "<?= $this->baseUrl() ?>/js/jquery.min.js"></script>
+    <script type="text/javascript" src="<?= $this->baseUrl() ?>/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="<?= $this->baseUrl() ?>/slider.css" type="text/css" media="screen" />
+    <script type="text/javascript" src="<?= $this->baseUrl() ?>/jquery.nivo.slider.js"></script>
+    
+    <script type="text/javascript">
+    $(window).load(function() {
+        $('#slider').nivoSlider();
+    });
+    </script>
+
+</head>
+
+<?php
+$user_data = Zend_Auth::getInstance()->getStorage()->read();
+?>
+
+<body>
+    <div id="wrapper">
+        <div id="header">
+            <div id="logo">
+                <img src="<?= $this->baseUrl() ?>/images/Logo.png" width="150px" height="170px" style="position: absolute;top: 50px">
+                
+            </div>
+        </div>
+        <!-- end #header -->
+        <div id="menu">
+            <ul>
+                <?php
+                if (isset($user_data->id)) {
+                ?>
+                    <li>
+                        <a href= "<?= $this->baseUrl() ?>/user/logout">الخروج  </a>
+                    </li>
+                     <?php
+                     
+                    if ($user_data->admin == "true"){
+                        ?>
+                        <li>
+                            <a href= "<?= $this->baseUrl() ?>/category">اضف للموقع</a>
+                        </li>
+                    <?php
+                    }
+                    if ($user_data->type == "parent") {
+                        ?>
+                        <li>
+                            <a href= "<?= $this->baseUrl() ?>/user/evaluatechild">قيم طفلك</a>
+                        </li>
+                        <li>
+                            <a href= "<?= $this->baseUrl() ?>/user/evaluatesite">قيم الموقع</a>
+                        </li>
+
+                        <?php     
+                    }
+    
+                } else {
+                    ?>
+
+                    <li>
+                        <a href="<?= $this->baseUrl() ?>/user/signup">التسجيل</a>
+                    </li>
+                    <li>
+                        <a href="<?= $this->baseUrl() ?>/user/login">الدخول</a>
+                    </li>
+                    <?php
+                }
+                ?>
+               <li class="current_page_item"><a href="<?= $this->baseUrl() ?>/user/">الرئيسية</a></li>
+            </ul>
+        </div>
+
+
+        <!-- end #menu -->
+        <div id="page">
+            <div id="content">
+                <?php echo $this->layout()->content; ?>
+
+                <div style="clear: both;">&nbsp;</div>
+            </div>
+            <!-- end #content -->
+            <div id="sidebar" dir="rtl">
+                <ul style="width: 100px;">
+
+                    <li>
+                        <h2>التصنيفات</h2>
+                        <ul> 
+                            <li>
+                                <h5>الاسعافات الاولية</h5>
+                                <a href="<?= $this->baseUrl() ?>/user/liststories/cat_id/1">    
+                                  <img alt="" class="roundrect" style="width:100%;height:20%" src="<?= $this->baseUrl() ?>/images/cat1.png" />
+                                </a>
+                            </li>
+                            <li>
+                                <h5>اخلاقنا</h5>
+                                <a href="<?= $this->baseUrl() ?>/user/liststories/cat_id/2">    
+                                  <img alt="" class="roundrect" style="width:100%;height:20%" src="<?= $this->baseUrl() ?>/images/cat2.png" />
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <!-- end #sidebar -->
+            <div style="clear: both;">&nbsp;</div>
+        </div>
+        <!-- end #page -->
+    </div>
+    <div id="footer-content">
+        <div class="column1">
+        </div>
+            
+        <div class="column2">   
+        </div>
+    </div>
+    
+    <div id="footer">    
+    </div>
+    <!-- end #footer -->
+</body>
+
+
+
